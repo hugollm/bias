@@ -1,0 +1,36 @@
+body {
+    box-sizing: border-box;
+    font-family: monospace;
+    margin: 20px;
+}
+
+* {
+    font-size: 1rem;
+    font-weight: normal;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+h2 {
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+}
+
+section {
+    display: inline-block;
+    margin: 0 20px;
+    vertical-align: top;
+}
+
+.crit-card {
+    background-color: #fefefe;
+    border: 1px solid #eee;
+    padding: 10px;
+}
+
+.option-card {
+    background-color: #fefefe;
+    border: 1px solid #eee;
+    padding: 10px;
+}

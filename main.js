@@ -1,18 +1,31 @@
 ReactDOM.render(<Main/>, document.getElementById('main'));
 
 function Main() {
+    let [criteria, setCriteria] = React.useState([
+        {name: 'Margin', score: 5},
+        {name: 'Dividends', score: 4},
+        {name: 'Expectation', score: 4},
+        {name: 'Safety', score: 4},
+    ]);
+    let [options, setOptions] = React.useState([
+        {name: 'B3SA3', scores: {'Margin': 2, 'Dividends': 3, 'Expectation': 5, 'Safety': 4}},
+        {name: 'BBAS3', scores: {'Margin': 5, 'Dividends': 4, 'Expectation': 4, 'Safety': 5}},
+        {name: 'WIZS3', scores: {'Margin': 4, 'Dividends': 5, 'Expectation': 4, 'Safety': 3}},
+        {name: 'JHSF3', scores: {'Margin': 5, 'Dividends': 5, 'Expectation': 5, 'Safety': 1}},
+        {name: 'ITSA4', scores: {'Margin': 4, 'Dividends': 5, 'Expectation': 4}},
+    ]);
     return <main>
-        <CritSection/>
-        <OptionSection/>
+        <CritSection criteria={criteria} setCriteria={setCriteria}/>
+        <OptionSection options={options} setOptions={setOptions} criteria={criteria}/>
         <RankedSection/>
     </main>
 }
 
-function CritSection() {
+function CritSection({ criteria, setCriteria }) {
     return <section>
         <h2>Criteria</h2>
         <NewForm/>
-        <CritList/>
+        <CritList criteria={criteria}/>
     </section>
 }
 
@@ -23,68 +36,51 @@ function NewForm() {
     </form>
 }
 
-function CritList() {
+function CritList({ criteria }) {
     return <ul>
-        <CritCard/>
-        <CritCard/>
-        <CritCard/>
+        {criteria.map(crit => <CritCard key={crit.name} crit={crit}/>)}
     </ul>
 }
 
-function CritCard() {
+function CritCard({ crit }) {
     return <li className="crit-card">
-        <span>Margin </span>
-        <input type="radio"/>
-        <input type="radio"/>
-        <input type="radio"/>
-        <input type="radio"/>
-        <input type="radio"/>
+        <h3>{crit.name}</h3>
+        <div>
+            <label>Weight </label>
+            <input name={crit.name} type="radio" value={1} defaultChecked={(crit.score || 3) == 1}/>
+            <input name={crit.name} type="radio" value={2} defaultChecked={(crit.score || 3) == 2}/>
+            <input name={crit.name} type="radio" value={3} defaultChecked={(crit.score || 3) == 3}/>
+            <input name={crit.name} type="radio" value={4} defaultChecked={(crit.score || 3) == 4}/>
+            <input name={crit.name} type="radio" value={5} defaultChecked={(crit.score || 3) == 5}/>
+        </div>
     </li>
 }
 
-function OptionSection() {
+function OptionSection({ options, setOptions, criteria }) {
     return <section>
         <h2>Options</h2>
         <NewForm/>
-        <OptionList/>
+        <OptionList options={options} criteria={criteria}/>
     </section>
 }
 
-function OptionList() {
+function OptionList({ options, criteria }) {
     return <ul>
-        <OptionCard/>
-        <OptionCard/>
-        <OptionCard/>
+        {options.map(option => <OptionCard key={option.name} option={option} criteria={criteria}/>)}
     </ul>
 }
 
-function OptionCard() {
+function OptionCard({ option, criteria }) {
     return <li className="option-card">
-        <div>TSLA</div>
-        <div>
-            <span>Margin </span>
-            <input type="radio"/>
-            <input type="radio"/>
-            <input type="radio"/>
-            <input type="radio"/>
-            <input type="radio"/>
-        </div>
-        <div>
-            <span>Margin </span>
-            <input type="radio"/>
-            <input type="radio"/>
-            <input type="radio"/>
-            <input type="radio"/>
-            <input type="radio"/>
-        </div>
-        <div>
-            <span>Margin </span>
-            <input type="radio"/>
-            <input type="radio"/>
-            <input type="radio"/>
-            <input type="radio"/>
-            <input type="radio"/>
-        </div>
+        <h3>{option.name}</h3>
+        {criteria.map(crit => <div key={crit.name}>
+            <label>{crit.name} </label>
+            <input name={option.name + '|' + crit.name} type="radio" value={1} defaultChecked={(option.scores[crit.name] || 3) == 1}/>
+            <input name={option.name + '|' + crit.name} type="radio" value={2} defaultChecked={(option.scores[crit.name] || 3) == 2}/>
+            <input name={option.name + '|' + crit.name} type="radio" value={3} defaultChecked={(option.scores[crit.name] || 3) == 3}/>
+            <input name={option.name + '|' + crit.name} type="radio" value={4} defaultChecked={(option.scores[crit.name] || 3) == 4}/>
+            <input name={option.name + '|' + crit.name} type="radio" value={5} defaultChecked={(option.scores[crit.name] || 3) == 5}/>
+        </div>)}
     </li>
 }
 

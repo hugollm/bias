@@ -44,22 +44,29 @@ function onSubmitNewCrit(e, state, setState) {
 function CritList({ state, setState }) {
     return <ul>
         {Object.keys(state.criteria).map(name => <CritCard
-            key={name} crit={state.criteria[name]} setState={setState}
+            key={name} crit={state.criteria[name]} state={state} setState={setState}
         />)}
     </ul>
 }
 
-function CritCard({ crit, setState }) {
+function CritCard({ crit, state, setState }) {
     return <li className="crit-card">
         <h3>{crit.name}</h3>
         <div>
             <label>Weight </label>
             {[1, 2, 3, 4, 5, 6, 7].map(n => {
-                return <input key={n} name={crit.name} type="radio" value={n}
-                    defaultChecked={(crit.weight || 5) == n}/>
+                return <input key={n} name={crit.name} type="radio"
+                    value={n} defaultChecked={(crit.weight || 5) == n}
+                    onChange={e => onChangeCritWeight(crit, n, state, setState)}
+                />
             })}
         </div>
     </li>
+}
+
+function onChangeCritWeight(crit, weight, state, setState) {
+    state.criteria[crit.name].weight = weight;
+    updateRanking(state, setState);
 }
 
 function OptionSection({ state, setState }) {
@@ -92,11 +99,18 @@ function OptionCard({ option, state, setState }) {
         {Object.keys(state.criteria).map(critName => <div key={critName}>
             <label>{critName} </label>
             {[1, 2, 3, 4, 5, 6, 7].map(n => {
-                return <input key={n} name={option.name + '|' + critName} type="radio" value={n}
-                    defaultChecked={(option.scores[critName] || 5) == n}/>
+                return <input key={n} name={option.name + '|' + critName} type="radio"
+                    value={n} defaultChecked={(option.scores[critName] || 5) == n}
+                    onChange={e => onChangeOptionScore(option, critName, n, state, setState)}
+                />
             })}
         </div>)}
     </li>
+}
+
+function onChangeOptionScore(option, critName, score, state, setState) {
+    state.options[option.name].scores[critName] = score;
+    updateRanking(state, setState);
 }
 
 function RankedSection({ state }) {
@@ -115,4 +129,5 @@ function RankedList({ state }) {
 function updateRanking(state, setState) {
     state.ranking = Object.keys(state.options).map(name => name);
     setState(JSON.parse(JSON.stringify(state)));
+    console.log('Ranking updated!', state);
 }

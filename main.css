@@ -6,6 +6,7 @@ body {
 
 * {
     font-size: 1rem;
+    font-style: normal;
     font-weight: normal;
     list-style: none;
     margin: 0;
@@ -29,6 +30,14 @@ label {
     text-align: right;
     vertical-align: top;
     width: 220px;
+}
+
+i {
+    cursor: pointer;
+}
+
+i:hover {
+    text-decoration: underline;
 }
 
 section {

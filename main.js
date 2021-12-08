@@ -51,7 +51,7 @@ function CritList({ state, setState }) {
 
 function CritCard({ crit, state, setState }) {
     return <li className="crit-card">
-        <h3>{crit.name}</h3>
+        <h3>{crit.name} <i onClick={() => deleteCrit(crit, state, setState)}>🗑</i></h3>
         <div>
             <label>Weight </label>
             {[1, 2, 3, 4, 5, 6, 7].map(n => {
@@ -62,6 +62,11 @@ function CritCard({ crit, state, setState }) {
             })}
         </div>
     </li>
+}
+
+function deleteCrit(crit, state, setState) {
+    delete state.criteria[crit.name];
+    updateRanking(state, setState);
 }
 
 function onChangeCritWeight(crit, weight, state, setState) {
@@ -95,7 +100,7 @@ function OptionList({ state, setState }) {
 
 function OptionCard({ option, state, setState }) {
     return <li className="option-card">
-        <h3>{option.name}</h3>
+        <h3>{option.name} <i onClick={() => deleteOption(option, state, setState)}>🗑</i></h3>
         {Object.keys(state.criteria).map(critName => <div key={critName}>
             <label>{critName} </label>
             {[1, 2, 3, 4, 5, 6, 7].map(n => {
@@ -106,6 +111,11 @@ function OptionCard({ option, state, setState }) {
             })}
         </div>)}
     </li>
+}
+
+function deleteOption(option, state, setState) {
+    delete state.options[option.name];
+    updateRanking(state, setState);
 }
 
 function onChangeOptionScore(option, critName, score, state, setState) {

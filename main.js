@@ -2,20 +2,9 @@ ReactDOM.render(<Main/>, document.getElementById('main'));
 
 function Main() {
     let [state, setState] = React.useState({
-        criteria: {
-            'Margin': {name: 'Margin', weight: 5},
-            'Dividends': {name: 'Dividends', weight: 4},
-            'Expectation': {name: 'Expectation', weight: 4},
-            'Safety': {name: 'Safety', weight: 4},
-        },
-        options: {
-            'B3SA3': {name: 'B3SA3', scores: {'Margin': 2, 'Dividends': 3, 'Expectation': 5, 'Safety': 4}},
-            'BBAS3': {name: 'BBAS3', scores: {'Margin': 5, 'Dividends': 4, 'Expectation': 4, 'Safety': 5}},
-            'WIZS3': {name: 'WIZS3', scores: {'Margin': 4, 'Dividends': 5, 'Expectation': 4, 'Safety': 3}},
-            'JHSF3': {name: 'JHSF3', scores: {'Margin': 5, 'Dividends': 5, 'Expectation': 5, 'Safety': 1}},
-            'ITSA4': {name: 'ITSA4', scores: {'Margin': 4, 'Dividends': 5, 'Expectation': 4}},
-        },
-        ranking: ['B3SA3', 'BBAS3', 'WIZS3', 'JHSF3', 'ITSA4'],
+        criteria: {},
+        options: {},
+        ranking: [],
     });
     return <main>
         <CritSection state={state} setState={setState}/>
@@ -49,7 +38,7 @@ function onSubmitNewCrit(e, state, setState) {
     Object.keys(state.options).map(optName => {
         state.options[optName].scores[critName] = 4;
     });
-    setState(JSON.parse(JSON.stringify(state)));
+    updateRanking(state, setState);
 }
 
 function CritList({ state, setState }) {
@@ -86,7 +75,7 @@ function onSubmitNewOption(e, state, setState) {
     e.target.children[0].value = '';
     state.options[optName] = {name: optName, scores: {}};
     Object.keys(state.criteria).map(critName => state.options[optName].scores[critName] = 4);
-    setState(JSON.parse(JSON.stringify(state)));
+    updateRanking(state, setState);
 }
 
 function OptionList({ state, setState }) {
@@ -121,4 +110,9 @@ function RankedList({ state }) {
     return <ol>
         {state.ranking.map((name, i) => <li key={name}>{i+1}. {name}</li>)}
     </ol>
+}
+
+function updateRanking(state, setState) {
+    state.ranking = Object.keys(state.options).map(name => name);
+    setState(JSON.parse(JSON.stringify(state)));
 }

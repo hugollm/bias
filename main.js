@@ -126,6 +126,7 @@ function onChangeOptionScore(option, critName, score, state, setState) {
 function RankedSection({ state }) {
     return <section>
         <h2>Ranking</h2>
+        <hr/>
         <RankedList state={state}/>
     </section>
 }

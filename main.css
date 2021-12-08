@@ -44,6 +44,7 @@ section {
     display: inline-block;
     margin: 0 20px;
     vertical-align: top;
+    width: 350px;
 }
 
 .crit-card {
@@ -56,4 +57,12 @@ section {
     background-color: #fefefe;
     border: 1px solid #eee;
     padding: 10px;
+}
+
+form {
+    margin-bottom: 10px;
+}
+
+ol {
+    margin-top: 10px;
 }

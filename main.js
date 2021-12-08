@@ -27,16 +27,29 @@ function Main() {
 function CritSection({ state, setState }) {
     return <section>
         <h2>Criteria</h2>
-        <NewForm/>
+        <NewForm onSubmit={e => onSubmitNewCrit(e, state, setState)}/>
         <CritList state={state} setState={setState}/>
     </section>
 }
 
-function NewForm() {
-    return <form>
+function NewForm({ onSubmit }) {
+    return <form onSubmit={e => {
+        e.preventDefault();
+        onSubmit(e);
+    }}>
         <input type="text"/>
         <button type="submit">ADD</button>
     </form>
+}
+
+function onSubmitNewCrit(e, state, setState) {
+    let critName = e.target.children[0].value;
+    e.target.children[0].value = '';
+    state.criteria[critName] = {name: critName, weight: 4};
+    Object.keys(state.options).map(optName => {
+        state.options[optName].scores[critName] = 4;
+    });
+    setState(JSON.parse(JSON.stringify(state)));
 }
 
 function CritList({ state, setState }) {
@@ -63,9 +76,17 @@ function CritCard({ crit, setState }) {
 function OptionSection({ state, setState }) {
     return <section>
         <h2>Options</h2>
-        <NewForm/>
+        <NewForm onSubmit={e => onSubmitNewOption(e, state, setState)}/>
         <OptionList state={state} setState={setState}/>
     </section>
+}
+
+function onSubmitNewOption(e, state, setState) {
+    let optName = e.target.children[0].value;
+    e.target.children[0].value = '';
+    state.options[optName] = {name: optName, scores: {}};
+    Object.keys(state.criteria).map(critName => state.options[optName].scores[critName] = 4);
+    setState(JSON.parse(JSON.stringify(state)));
 }
 
 function OptionList({ state, setState }) {

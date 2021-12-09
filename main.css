@@ -40,6 +40,11 @@ i:hover {
     text-decoration: underline;
 }
 
+small {
+    color: rgba(0, 0, 0, 0.5);
+    font-size: 0.8rem;
+}
+
 section {
     display: inline-block;
     margin: 0 20px;

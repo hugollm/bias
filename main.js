@@ -133,7 +133,9 @@ function RankedSection({ state }) {
 
 function RankedList({ state }) {
     return <ol>
-        {state.ranking.map((name, i) => <li key={name}>{i+1}. {name}</li>)}
+        {state.ranking.map((name, i) => <li key={name}>
+            {i+1}. {name} <small>({state.options[name].acc})</small>
+        </li>)}
     </ol>
 }
 

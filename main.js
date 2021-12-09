@@ -1,11 +1,8 @@
 ReactDOM.render(<Main/>, document.getElementById('main'));
 
 function Main() {
-    let [state, setState] = React.useState({
-        criteria: {},
-        options: {},
-        ranking: [],
-    });
+    let [state, setState] = React.useState({ criteria: {}, options: {}, ranking: [] });
+    React.useEffect(() => restoreState(setState), []);
     return <main>
         <CritSection state={state} setState={setState}/>
         <OptionSection state={state} setState={setState}/>
@@ -150,5 +147,18 @@ function updateRanking(state, setState) {
     let options = Object.keys(state.options).map(name => state.options[name]);
     state.ranking = options.sort((a, b) => b.acc - a.acc).map(option => option.name);
     setState(JSON.parse(JSON.stringify(state)));
+    persistState(state);
     console.log('Ranking updated!', state);
+}
+
+function persistState(state) {
+    localStorage.setItem('state', JSON.stringify(state));
+}
+
+function restoreState(setState) {
+    let stateJson = localStorage.getItem('state');
+    if (stateJson) {
+        setState(JSON.parse(stateJson));
+        console.log('State restored!');
+    }
 }

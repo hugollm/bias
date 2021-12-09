@@ -7,6 +7,7 @@ function Main() {
         <section className="left-section">
             <CritSection state={state} setState={setState}/>
             <RankedSection state={state}/>
+            <ButtonSection state={state} setState={setState}/>
         </section>
         <section className="right-section">
             <OptionSection state={state} setState={setState}/>
@@ -165,4 +166,34 @@ function restoreState(setState) {
         setState(JSON.parse(stateJson));
         console.log('State restored!');
     }
+}
+
+function ButtonSection({ state, setState }) {
+    let [text, setText] = React.useState('');
+    return <section className="button-section">
+        <button onClick={() => exportState(state, setText)}>Export</button>
+        <button onClick={() => importState(text, setText, setState)} disabled={text == ''}>Import ...</button>
+        <textarea value={text} onChange={e => setText(e.target.value)}/>
+    </section>
+}
+
+function exportState(state, setText) {
+    let b64 = encodeToB64(JSON.stringify(state));
+    setText(b64);
+}
+
+function importState(text, setText, setState) {
+    if (confirm('This replace your state. Are you sure?')) {
+        let state = JSON.parse(decodeFromB64(text));
+        updateRanking(state, setState);
+        setText('');
+    }
+}
+
+function encodeToB64(str) {
+    return btoa(unescape(encodeURIComponent(str)));
+}
+
+function decodeFromB64(str) {
+    return decodeURIComponent(escape(atob(str)));
 }

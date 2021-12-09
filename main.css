@@ -88,3 +88,22 @@ main {
     display: block;
     margin-top: 40px;
 }
+
+.button-section {
+    margin-top: 40px;
+}
+
+.button-section button {
+    margin-right: 10px;
+    padding: 2px 10px;
+}
+
+textarea {
+    border: 1px solid #ddd;
+    display: block;
+    font-size: 0.8rem;
+    height: 160px;
+    margin-top: 10px;
+    padding: 5px;
+    width: 100%;
+}

@@ -4,14 +4,18 @@ function Main() {
     let [state, setState] = React.useState({ criteria: {}, options: {}, ranking: [] });
     React.useEffect(() => restoreState(setState), []);
     return <main>
-        <CritSection state={state} setState={setState}/>
-        <OptionSection state={state} setState={setState}/>
-        <RankedSection state={state}/>
+        <section className="left-section">
+            <CritSection state={state} setState={setState}/>
+            <RankedSection state={state}/>
+        </section>
+        <section className="right-section">
+            <OptionSection state={state} setState={setState}/>
+        </section>
     </main>
 }
 
 function CritSection({ state, setState }) {
-    return <section>
+    return <section className="crit-section">
         <h2>Criteria</h2>
         <NewForm onSubmit={e => onSubmitNewCrit(e, state, setState)}/>
         <CritList state={state} setState={setState}/>
@@ -72,7 +76,7 @@ function onChangeCritWeight(crit, weight, state, setState) {
 }
 
 function OptionSection({ state, setState }) {
-    return <section>
+    return <section className="option-section">
         <h2>Options</h2>
         <NewForm onSubmit={e => onSubmitNewOption(e, state, setState)}/>
         <OptionList state={state} setState={setState}/>
@@ -121,7 +125,7 @@ function onChangeOptionScore(option, critName, score, state, setState) {
 }
 
 function RankedSection({ state }) {
-    return <section>
+    return <section className="ranked-section">
         <h2>Ranking</h2>
         <hr/>
         <RankedList state={state}/>

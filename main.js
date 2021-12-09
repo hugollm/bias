@@ -138,7 +138,15 @@ function RankedList({ state }) {
 }
 
 function updateRanking(state, setState) {
-    state.ranking = Object.keys(state.options).map(name => name);
+    Object.keys(state.options).map(optName => {
+        let option = state.options[optName];
+        option.acc = 0;
+        Object.keys(state.criteria).map(critName => {
+            option.acc += option.scores[critName] * state.criteria[critName].weight;
+        });
+    });
+    let options = Object.keys(state.options).map(name => state.options[name]);
+    state.ranking = options.sort((a, b) => b.acc - a.acc).map(option => option.name);
     setState(JSON.parse(JSON.stringify(state)));
     console.log('Ranking updated!', state);
 }

@@ -40,7 +40,7 @@ function onSubmitNewCrit(e, state, setState) {
 
 function CritList({ state, setState }) {
     return <ul>
-        {Object.keys(state.criteria).map(name => <CritCard
+        {Object.keys(state.criteria).sort().map(name => <CritCard
             key={name} crit={state.criteria[name]} state={state} setState={setState}
         />)}
     </ul>
@@ -89,7 +89,7 @@ function onSubmitNewOption(e, state, setState) {
 
 function OptionList({ state, setState }) {
     return <ul>
-        {Object.keys(state.options).map(name => <OptionCard
+        {Object.keys(state.options).sort().map(name => <OptionCard
             key={name} option={state.options[name]} state={state} setState={setState}
         />)}
     </ul>

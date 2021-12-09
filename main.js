@@ -102,7 +102,7 @@ function OptionList({ state, setState }) {
 function OptionCard({ option, state, setState }) {
     return <li className="option-card">
         <h3>{option.name} <i onClick={() => deleteOption(option, state, setState)}>🗑</i></h3>
-        {Object.keys(state.criteria).map(critName => <div key={critName}>
+        {Object.keys(state.criteria).sort().map(critName => <div key={critName}>
             <label>{critName} </label>
             {[1, 2, 3, 4, 5, 6, 7].map(n => {
                 return <input key={n} name={option.name + '|' + critName} type="radio"

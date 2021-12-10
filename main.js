@@ -171,10 +171,17 @@ function restoreState(setState) {
 function ButtonSection({ state, setState }) {
     let [text, setText] = React.useState('');
     return <section className="button-section">
+        <button onClick={() => resetState(setState)}>Reset ...</button>
         <button onClick={() => exportState(state, setText)}>Export</button>
         <button onClick={() => importState(text, setText, setState)} disabled={text == ''}>Import ...</button>
         <textarea value={text} onChange={e => setText(e.target.value)}/>
     </section>
+}
+
+function resetState(setState) {
+    if (confirm('This will delete all your data. Are you sure?')) {
+        updateRanking({ criteria: {}, options: {}, ranking: [] }, setState);
+    }
 }
 
 function exportState(state, setText) {

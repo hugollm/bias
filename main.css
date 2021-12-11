@@ -20,17 +20,7 @@ h2 {
 }
 
 h3 {
-    margin-bottom: 5px;
-}
-
-label {
-    color: rgba(0, 0, 0, 0.5);
-    display: inline-block;
-    font-size: 0.9rem;
-    margin-right: 7px;
-    text-align: right;
-    vertical-align: top;
-    width: 230px;
+    margin-bottom: 20px;
 }
 
 button {
@@ -56,7 +46,7 @@ small {
     background-color: #fefefe;
     border: 1px solid #eee;
     padding: 10px;
-    width: 330px;
+    width: 350px;
 }
 
 .option-card {
@@ -64,7 +54,7 @@ small {
     border: 1px solid #eee;
     display: inline-block;
     padding: 10px;
-    width: 330px;
+    width: 400px;
 }
 
 form {
@@ -96,7 +86,7 @@ main {
 
 .left-section {
     margin-right: 40px;
-    min-width: 372px;
+    min-width: 380px;
 }
 
 .right-section {
@@ -133,4 +123,64 @@ textarea {
 hr {
     border: 0;
     border-bottom: 1px solid #ddd;
+}
+
+.score-input {
+    line-height: 27px;
+}
+
+.score-input .scores {
+    vertical-align: bottom;
+    margin: 0 8px 0 10px;
+}
+
+.score-input label {
+    display: inline-block;
+    color: rgba(0, 0, 0, 0.5);
+    font-size: 0.9rem;
+    text-align: right;
+    vertical-align: top;
+    width: 40%;
+}
+
+.score-input small {
+    color: rgba(0, 0, 0, 0.3);
+    vertical-align: top;
+}
+
+.score-input .score {
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    display: inline-block;
+    height: 15px;
+    margin: 0 1px;
+    width: 15px;
+}
+
+.score-input .score[data-selected="true"][data-score="-3"] {
+    background-color: rgba(200, 0, 0, 0.7);
+}
+
+.score-input .score[data-selected="true"][data-score="-2"] {
+    background-color: rgba(200, 0, 0, 0.5);
+}
+
+.score-input .score[data-selected="true"][data-score="-1"] {
+    background-color: rgba(200, 0, 0, 0.2);
+}
+
+.score-input .score[data-selected="true"][data-score="0"] {
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+.score-input .score[data-selected="true"][data-score="1"] {
+    background-color: rgba(0, 200, 0, 0.2);
+}
+
+.score-input .score[data-selected="true"][data-score="2"] {
+    background-color: rgba(0, 200, 0, 0.5);
+}
+
+.score-input .score[data-selected="true"][data-score="3"] {
+    background-color: rgba(0, 200, 0, 0.7);
 }

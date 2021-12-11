@@ -36,9 +36,9 @@ function NewForm({ onSubmit }) {
 function onSubmitNewCrit(e, state, setState) {
     let critName = e.target.children[0].value;
     e.target.children[0].value = '';
-    state.criteria[critName] = {name: critName, weight: 4};
+    state.criteria[critName] = {name: critName, weight: 1};
     Object.keys(state.options).map(optName => {
-        state.options[optName].scores[critName] = 4;
+        state.options[optName].scores[critName] = 0;
     });
     updateRanking(state, setState);
 }
@@ -54,16 +54,35 @@ function CritList({ state, setState }) {
 function CritCard({ crit, state, setState }) {
     return <li className="crit-card">
         <h3>{crit.name} <i onClick={() => deleteCrit(crit, state, setState)}>🗑</i></h3>
-        <div>
-            <label>Weight </label>
-            {[1, 2, 3, 4, 5, 6, 7].map(n => {
-                return <input key={n} name={crit.name} type="radio"
-                    value={n} checked={crit.weight == n}
-                    onChange={e => onChangeCritWeight(crit, n, state, setState)}
+        <ScoreInput name="Weight" value={crit.weight} scores={[0, 1, 2, 3]}
+            onChange={n => onChangeCritWeight(crit, n, state, setState)}/>
+    </li>
+}
+
+function ScoreInput({ name, value, scores, onChange }) {
+    let [score, setScore] = React.useState(value);
+    return <div className="score-input">
+        <label>{name}</label>
+        <span className="scores">
+            {scores.map(n => {
+                return <span key={n} className="score" data-score={n} data-selected={score == n}
+                    onClick={e => {
+                        setScore(n);
+                        onChange(n);
+                    }}
                 />
             })}
-        </div>
-    </li>
+        </span>
+        <small>{{
+            '-3': 'extremely low',
+            '-2': 'very low',
+            '-1': 'kinda low',
+            '0': 'neutral',
+            '1': 'kinda high',
+            '2': 'very high',
+            '3': 'extremely high',
+        }[score]}</small>
+    </div>
 }
 
 function deleteCrit(crit, state, setState) {
@@ -88,7 +107,7 @@ function onSubmitNewOption(e, state, setState) {
     let optName = e.target.children[0].value;
     e.target.children[0].value = '';
     state.options[optName] = {name: optName, scores: {}};
-    Object.keys(state.criteria).map(critName => state.options[optName].scores[critName] = 4);
+    Object.keys(state.criteria).map(critName => state.options[optName].scores[critName] = 0);
     updateRanking(state, setState);
 }
 
@@ -103,15 +122,10 @@ function OptionList({ state, setState }) {
 function OptionCard({ option, state, setState }) {
     return <li className="option-card">
         <h3>{option.name} <i onClick={() => deleteOption(option, state, setState)}>🗑</i></h3>
-        {Object.keys(state.criteria).sort().map(critName => <div key={critName}>
-            <label>{critName} </label>
-            {[1, 2, 3, 4, 5, 6, 7].map(n => {
-                return <input key={n} name={option.name + '|' + critName} type="radio"
-                    value={n} checked={option.scores[critName] == n}
-                    onChange={e => onChangeOptionScore(option, critName, n, state, setState)}
-                />
-            })}
-        </div>)}
+        {Object.keys(state.criteria).sort().map(critName => <ScoreInput key={critName}
+            name={critName} value={option.scores[critName]} scores={[-3, -2, -1, 0, 1, 2, 3]}
+            onChange={n => onChangeOptionScore(option, critName, n, state, setState)}
+        />)}
     </li>
 }
 

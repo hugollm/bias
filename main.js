@@ -58,7 +58,7 @@ function CritCard({ crit, state, setState }) {
             <label>Weight </label>
             {[1, 2, 3, 4, 5, 6, 7].map(n => {
                 return <input key={n} name={crit.name} type="radio"
-                    value={n} defaultChecked={(crit.weight || 5) == n}
+                    value={n} checked={crit.weight == n}
                     onChange={e => onChangeCritWeight(crit, n, state, setState)}
                 />
             })}
@@ -107,7 +107,7 @@ function OptionCard({ option, state, setState }) {
             <label>{critName} </label>
             {[1, 2, 3, 4, 5, 6, 7].map(n => {
                 return <input key={n} name={option.name + '|' + critName} type="radio"
-                    value={n} defaultChecked={(option.scores[critName] || 5) == n}
+                    value={n} checked={option.scores[critName] == n}
                     onChange={e => onChangeOptionScore(option, critName, n, state, setState)}
                 />
             })}

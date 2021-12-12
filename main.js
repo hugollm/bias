@@ -150,7 +150,13 @@ function RankedSection({ state }) {
 function RankedList({ state }) {
     return <ol>
         {state.ranking.map((name, i) => <li key={name}>
-            {i+1}. {name} <small>({state.options[name].acc})</small>
+            <span>{i+1}. </span>
+            <span>{name}</span>
+            <small>
+                {!state.options[name].dominated ?
+                    <span className="pareto" title="Pareto front"> 🏆 </span> : ' '}
+                ({state.options[name].acc})
+            </small>
         </li>)}
     </ol>
 }
@@ -159,6 +165,7 @@ function updateRanking(state, setState) {
     Object.keys(state.options).map(optName => {
         let option = state.options[optName];
         option.acc = 0;
+        option.dominated = optionIsDominated(option, state.options);
         Object.keys(state.criteria).map(critName => {
             option.acc += option.scores[critName] * state.criteria[critName].weight;
         });
@@ -168,6 +175,25 @@ function updateRanking(state, setState) {
     setState(JSON.parse(JSON.stringify(state)));
     persistState(state);
     console.log('Ranking updated!', state);
+}
+
+function optionIsDominated(option, options) {
+    for (let optName in options) {
+        if (optName == option.name)
+            continue;
+        let opt = options[optName];
+        let oneLoss = false;
+        let noWins = true;
+        for (let critName in option.scores) {
+            if (option.scores[critName] < opt.scores[critName])
+                oneLoss = true;
+            if (option.scores[critName] > opt.scores[critName])
+                noWins = false;
+        }
+        if (oneLoss && noWins)
+            return true;
+    }
+    return false;
 }
 
 function persistState(state) {

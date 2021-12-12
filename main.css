@@ -184,3 +184,9 @@ hr {
 .score-input .score[data-selected="true"][data-score="3"] {
     background-color: rgba(0, 200, 0, 0.7);
 }
+
+.pareto {
+    cursor: default;
+    font-size: 0.8rem;
+    margin: 0 3px;
+}

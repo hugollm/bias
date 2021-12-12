@@ -120,7 +120,8 @@ function OptionList({ state, setState }) {
 }
 
 function OptionCard({ option, state, setState }) {
-    return <li className="option-card">
+    let [focused, setFocused] = React.useState(false);
+    return <li className="option-card" data-focused={focused} onDoubleClick={e => setFocused(!focused)}>
         <h3>{option.name} <i onClick={() => deleteOption(option, state, setState)}>🗑</i></h3>
         {Object.keys(state.criteria).sort().map(critName => <ScoreInput key={critName}
             name={critName} value={option.scores[critName]} scores={[-3, -2, -1, 0, 1, 2, 3]}

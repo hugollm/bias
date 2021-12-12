@@ -46,7 +46,8 @@ small {
     background-color: #fefefe;
     border: 1px solid #eee;
     padding: 10px;
-    width: 350px;
+    user-select: none;
+    width: 320px;
 }
 
 .option-card {
@@ -54,7 +55,12 @@ small {
     border: 1px solid #eee;
     display: inline-block;
     padding: 10px;
+    user-select: none;
     width: 400px;
+}
+
+.option-card[data-focused="true"] {
+    border: 1px solid red;
 }
 
 form {
@@ -86,7 +92,7 @@ main {
 
 .left-section {
     margin-right: 40px;
-    min-width: 380px;
+    min-width: 345px;
 }
 
 .right-section {
